@@ -26,6 +26,7 @@ const HeaderContainer = styled.div`
 
 const LogoContainer = styled.div`
     > img{
+       
         height: 50px;
     }
 
