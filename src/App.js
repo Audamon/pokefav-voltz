@@ -16,8 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home display={display} setDisplay={setDisplay} />}>
             <Route path="fire" element={<PokeContainer setDisplay={setDisplay} type={"fire"} nextType={'water'} previousType={''}/>} />
-            <Route path="water" element={<PokeContainer  type={"water"} nextType={'plant'} previousType={'fire'}/>} />
-            <Route path="plant" element={<PokeContainer  type={"plant"} nextType={'fire'} previousType={'water'}/>} />
+            <Route path="water" element={<PokeContainer  type={"water"} nextType={'grass'} previousType={'fire'}/>} />
+            <Route path="grass" element={<PokeContainer  type={"grass"} nextType={'fire'} previousType={'water'}/>} />
           </Route>
         </Routes>
       </PageContainer>
@@ -33,7 +33,7 @@ const PageContainer = styled.div`
       rgba(255, 255, 255, 0.3)
     ),
     url("https://images7.alphacoders.com/662/thumb-1920-662102.png");
-  height: 90vh;
+  height: 88vh;
   width: 100%;
   display: flex;
   justify-content: center;
