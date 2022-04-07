@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, } from "react";
 import styled from "styled-components";
 import { getSprite } from "../../services/Api";
 
 
-function PokeOptions({ url, type }) {
+
+function PokeOptions({ url, type, setFavPokes, name, sprite, favPokes, isFav }) {
   const [pokeSprite, setPokeSprite] = useState("");
   const [pokeName, setPokeName] = useState("");
+  
+
   useEffect(() => {
     setPokeSprite('');
     const promise = getSprite(url);
@@ -19,23 +22,41 @@ function PokeOptions({ url, type }) {
       return "#ffbc40";
     } else if (type === "water") {
       return "#4040ff";
-    } else {
+    } else if(type === "grass") {
       return "#00a000";
     }
   };
+  const selectPokemon = (e) => {
+    e.preventDefault();
+    const pokeObj = {
+      name: pokeName,
+      url: pokeSprite,
+    }
+    const arr = [];
+    arr.push(pokeObj);
+    setFavPokes([...favPokes,pokeObj]);
+    
+  }
 
+  const removePokemon = (e) => {
+    e.preventDefault();
+    const name = e.target.getAttribute('name');
+    console.log(name, e.target, favPokes);
+    setFavPokes(favPokes.filter(p => p.name !== name));
+
+  }
   return (
-    <PokeOptionsContainer background={optionColor}>
-      <img src={pokeSprite} alt={pokeName} />
+    <PokeOptionsContainer name={name || pokeName} isFav={isFav} background={optionColor} onClick={isFav? removePokemon : selectPokemon}>
+      <img name={name || pokeName} src={pokeSprite || sprite} alt={pokeName || name} />
 
-      <h3>{pokeName}</h3>
+      <h3 name={name || pokeName}>{pokeName || name}</h3>
     </PokeOptionsContainer>
   );
 }
 export default PokeOptions;
 
-const PokeOptionsContainer = styled.div`
-  width: 35%;
+const PokeOptionsContainer = styled.button`
+  width: ${props => props.isFav ? '80%' : '40%'};
   background-color: ${(props) => props.background};
   height: 60px;
   border: 1px solid black;
