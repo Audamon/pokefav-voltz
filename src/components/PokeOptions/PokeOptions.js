@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getSprite } from "../../services/Api";
 
-function PokeOptions({ name, url, type }) {
+
+function PokeOptions({ url, type }) {
   const [pokeSprite, setPokeSprite] = useState("");
+  const [pokeName, setPokeName] = useState("");
   useEffect(() => {
+    setPokeSprite('');
     const promise = getSprite(url);
     promise.then((res) => {
+      setPokeName(res.data.name)
       setPokeSprite(res.data.sprites.front_default);
     });
   }, [url]);
@@ -19,20 +23,20 @@ function PokeOptions({ name, url, type }) {
       return "#00a000";
     }
   };
+
   return (
     <PokeOptionsContainer background={optionColor}>
-      <img src={pokeSprite} alt={name} />
+      <img src={pokeSprite} alt={pokeName} />
 
-      <h3>{name}</h3>
+      <h3>{pokeName}</h3>
     </PokeOptionsContainer>
   );
 }
-
 export default PokeOptions;
 
 const PokeOptionsContainer = styled.div`
   width: 35%;
-  background-color: ${props => props.background};
+  background-color: ${(props) => props.background};
   height: 60px;
   border: 1px solid black;
   border-radius: 5px;
@@ -55,13 +59,13 @@ const PokeOptionsContainer = styled.div`
     opacity: 0.6;
   }
 
-  @media(max-width: 800px){
+  @media (max-width: 800px) {
     > img {
-    height: 30px;
-  }
+      height: 30px;
+    }
 
-  > h3 {
-    font-size: 12px;
-  }
+    > h3 {
+      font-size: 12px;
+    }
   }
 `;

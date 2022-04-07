@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Title from "../Title/Title";
 import Input from "../Input/Input";
 import { useNavigate } from "react-router-dom";
-import { getPokemons } from "../../services/Api";
+import { getPokemons, getSprite } from "../../services/Api";
 import PokeOptions from "../PokeOptions/PokeOptions";
 
 function PokeContainer({ type, setDisplay, nextType, previousType }) {
@@ -44,8 +44,13 @@ function PokeContainer({ type, setDisplay, nextType, previousType }) {
         <Title title={`Choose your favorite ${type} pokemons!`} />
         <Input />
         <PokeList>
-          {pokemons.map((pokemon, index) => <PokeOptions name={pokemon.pokemon.name} url={pokemon.pokemon.url} key={index} type={type}/>
-          )}
+          {pokemons.map((pokemon, index) => (
+            <PokeOptions
+              url={pokemon.pokemon.url}
+              key={index}
+              type={type}
+            />
+          ))}
         </PokeList>
       </PkContainer>
       <Vr />
@@ -68,8 +73,6 @@ const PokeList = styled.div`
   margin-top: 10px;
   margin-left: -20px;
   height: 100%;
-
- 
 `;
 
 const PkContainer = styled.div`
@@ -77,16 +80,18 @@ const PkContainer = styled.div`
 
   background: ${(prop) => prop.background};
   overflow-y: scroll;
-  ::-webkit-scrollbar { width: 0 !important }
-  @media(max-width: 800px) {
-    flex:0.7;
+  ::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  @media (max-width: 800px) {
+    flex: 0.7;
   }
 `;
 const FavContainer = styled.div`
   flex: 0.4;
   background: ${(prop) => prop.background};
-  @media(max-width: 800px) {
-    flex:0.3;
+  @media (max-width: 800px) {
+    flex: 0.3;
   }
 `;
 const Vr = styled.div`
