@@ -1,5 +1,6 @@
 # FavPokes
 In this project you can choose your three favorites pokemons from type fire, water and grass, and show a resume of your favorites pokemons. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![](https://github.com/Audamon/pokefav-voltz/blob/main/src/shared/Peek%202022-04-08%2015-55.gif)
 
 ## Available Scripts
 
