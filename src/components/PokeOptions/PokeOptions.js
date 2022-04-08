@@ -1,19 +1,24 @@
-import React, { useEffect, useState, } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getSprite } from "../../services/Api";
 
-
-
-function PokeOptions({ url, type, setFavPokes, name, sprite, favPokes, isFav }) {
+function PokeOptions({
+  url,
+  type,
+  setFavPokes,
+  name,
+  sprite,
+  favPokes,
+  isFav,
+}) {
   const [pokeSprite, setPokeSprite] = useState("");
   const [pokeName, setPokeName] = useState("");
-  
 
   useEffect(() => {
-    setPokeSprite('');
+    setPokeSprite("");
     const promise = getSprite(url);
     promise.then((res) => {
-      setPokeName(res.data.name)
+      setPokeName(res.data.name);
       setPokeSprite(res.data.sprites.front_default);
     });
   }, [url]);
@@ -22,7 +27,7 @@ function PokeOptions({ url, type, setFavPokes, name, sprite, favPokes, isFav }) 
       return "#ffbc40";
     } else if (type === "water") {
       return "#4040ff";
-    } else if(type === "grass") {
+    } else if (type === "grass") {
       return "#00a000";
     }
   };
@@ -31,23 +36,41 @@ function PokeOptions({ url, type, setFavPokes, name, sprite, favPokes, isFav }) 
     const pokeObj = {
       name: pokeName,
       url: pokeSprite,
+    };
+    if (favPokes.length === 3) {
+      return;
     }
+    if(favPokes.length === 0){
+      setFavPokes([...favPokes, pokeObj]);
+    }
+    favPokes.forEach((fp) => {
+      if (fp.name !== pokeName) {
+        console.log(fp.name , pokeName)
+        setFavPokes([...favPokes, pokeObj]);
+      }
+    });
     const arr = [];
     arr.push(pokeObj);
-    setFavPokes([...favPokes,pokeObj]);
     
-  }
+  };
 
   const removePokemon = (e) => {
     e.preventDefault();
-    const name = e.target.getAttribute('name');
-    console.log(name, e.target, favPokes);
-    setFavPokes(favPokes.filter(p => p.name !== name));
-
-  }
+    const name = e.target.getAttribute("name");
+    setFavPokes(favPokes.filter((p) => p.name !== name));
+  };
   return (
-    <PokeOptionsContainer name={name || pokeName} isFav={isFav} background={optionColor} onClick={isFav? removePokemon : selectPokemon}>
-      <img name={name || pokeName} src={pokeSprite || sprite} alt={pokeName || name} />
+    <PokeOptionsContainer
+      name={name || pokeName}
+      isFav={isFav}
+      background={optionColor}
+      onClick={isFav ? removePokemon : selectPokemon}
+    >
+      <img
+        name={name || pokeName}
+        src={pokeSprite || sprite}
+        alt={pokeName || name}
+      />
 
       <h3 name={name || pokeName}>{pokeName || name}</h3>
     </PokeOptionsContainer>
@@ -56,14 +79,15 @@ function PokeOptions({ url, type, setFavPokes, name, sprite, favPokes, isFav }) 
 export default PokeOptions;
 
 const PokeOptionsContainer = styled.button`
-  width: ${props => props.isFav ? '80%' : '40%'};
+  width: ${(props) => (props.isFav ? "80%" : "40%")};
   background-color: ${(props) => props.background};
   height: 60px;
   border: 1px solid black;
   border-radius: 5px;
   display: flex;
   margin-left: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-top: 20px;
   align-items: center;
   justify-content: center;
 
