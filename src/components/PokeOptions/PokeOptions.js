@@ -34,8 +34,8 @@ function PokeOptions({
   const selectPokemon = (e) => {
     e.preventDefault();
     const pokeObj = {
-      name: pokeName,
-      url: pokeSprite,
+      name: pokeName || name,
+      url: pokeSprite || sprite,
     };
     if (favPokes.length === 3) {
       return;

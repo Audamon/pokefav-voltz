@@ -6,7 +6,7 @@ import Home from "./components/Home/Home";
 import PokeContainer from "./components/Home/PokeContainer";
 import PokeContext from "./services/context/pokeContext";
 import Resume from './components/Home/Resume';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function App() {
   const [display, setDisplay] = useState("block");

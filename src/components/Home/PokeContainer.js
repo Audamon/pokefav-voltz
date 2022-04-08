@@ -11,10 +11,11 @@ function PokeContainer({ type, setDisplay, nextType, previousType }) {
   const navigate = useNavigate();
   const [pokemons, setPokemons] = useState([]);
   const [favPokes, setFavPokes] = useState([]);
-  const {setFavoritePokemons, favoritePokemons} = useContext(PokeContext);
-  
+  const [input, setInput] = useState("");
+  const { setFavoritePokemons, favoritePokemons } = useContext(PokeContext);
+
   useEffect(() => {
-    setFavPokes([])
+    setFavPokes([]);
     const promise = getPokemons(type);
     promise.then((res) => {
       setPokemons(res.data.pokemon);
@@ -36,12 +37,13 @@ function PokeContainer({ type, setDisplay, nextType, previousType }) {
     const route = `/${nextType}`;
     const favObj = {};
     favObj[type] = favPokes;
-    if(favPokes.length <3){
-      alert('escolha os seus 3 pokemons favoritos');
+    if (favPokes.length < 3) {
+      alert("escolha os seus 3 pokemons favoritos");
       return;
     }
     setFavoritePokemons([...favoritePokemons, favObj]);
     setFavPokes([]);
+    setInput('');
     navigate(route);
   };
   const pageColor = () => {
@@ -58,7 +60,7 @@ function PokeContainer({ type, setDisplay, nextType, previousType }) {
       return "#ffbc40";
     } else if (type === "water") {
       return "#4040ff";
-    } else if(type === "grass") {
+    } else if (type === "grass") {
       return "#00a000";
     }
   };
@@ -67,7 +69,7 @@ function PokeContainer({ type, setDisplay, nextType, previousType }) {
     <>
       <PkContainer background={pageColor}>
         <Title title={`Choose your favorite ${type} pokemons!`} />
-        <Input />
+        <Input setFavPokes={setFavPokes} favPokes={favPokes} setInput={setInput} input={input}/>
         <PokeList>
           {pokemons.map((pokemon, index) => (
             <PokeOptions
@@ -81,7 +83,7 @@ function PokeContainer({ type, setDisplay, nextType, previousType }) {
           ))}
         </PokeList>
       </PkContainer>
-      <Vr background={buttonColor}/>
+      <Vr background={buttonColor} />
       <FavContainer background={pageColor}>
         <Title title={`Favorite pokemons type-${type}`} />
         {favPokes.map((fav, index) => (
@@ -95,9 +97,13 @@ function PokeContainer({ type, setDisplay, nextType, previousType }) {
             favPokes={favPokes}
           />
         ))}
-       <ButtonsContainer>
-        <BackButton background={buttonColor} onClick={back}>Back</BackButton>
-        <FowardButton background={buttonColor} onClick={next}>Next</FowardButton>
+        <ButtonsContainer>
+          <BackButton background={buttonColor} onClick={back}>
+            Back
+          </BackButton>
+          <FowardButton background={buttonColor} onClick={next}>
+            Next
+          </FowardButton>
         </ButtonsContainer>
       </FavContainer>
     </>
@@ -116,7 +122,6 @@ const PokeList = styled.div`
   //height: 100%;
   padding-bottom: 50px;
   height: fit-content;
-
 `;
 
 const ButtonsContainer = styled.div`
@@ -152,31 +157,31 @@ const FavContainer = styled.div`
 const Vr = styled.div`
   width: 4px;
   height: 100%;
-  background-color:${props => props.background};
+  background-color: ${(props) => props.background};
 `;
 const FowardButton = styled.button`
   border: none;
-  background-color: ${props => props.background};
+  background-color: ${(props) => props.background};
   width: 100px;
   height: 40px;
   margin-left: 35px;
   border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   :hover {
     cursor: pointer;
     opacity: 0.6;
   }
 `;
 const BackButton = styled.button`
- border: none;
-  background-color: ${props => props.background};
+  border: none;
+  background-color: ${(props) => props.background};
   width: 100px;
   height: 40px;
   margin-left: 35px;
   border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   :hover {
     cursor: pointer;
     opacity: 0.6;
   }
-  `;
+`;
